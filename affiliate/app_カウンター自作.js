@@ -1,6 +1,5 @@
 const express = require('express');
 const MongoClient = require('mongodb').MongoClient;
-import {serchAmazonItems} from "./get_amazon_items.js";
 
 const app = express();
 
@@ -11,8 +10,8 @@ app.use(express.urlencoded({extended: false}));
 const url = 'mongodb://localhost:27017';
 const dbName = "puppet_test";
 const earphoneCollectionName = "earphone_ranking";
+const counterCollectionName ="counter";
 const itemCollectionName = "items";
-const amazonCollectionName = "Amazon10"
 
 const getItem = async (url, dbName, collectionName) => {
 
@@ -30,27 +29,39 @@ const getItem = async (url, dbName, collectionName) => {
       {$limit: 1},
   ];
 
-  const items = []
-  await collection.aggregate(queryGetItem).toArray(docs => {
+  return await collection.aggregate(queryGetItem).toArray().then(docs => {
     for (doc of docs) {
         if ("price" in doc) {
           if ("title" in doc) {
             if ("url" in doc) {
-              items.push({price: doc.price, title: doc.title, url: doc.url, collectionName: collectionName, itemID: itemID});
+              return {price: doc.price, title: doc.title, url: doc.url, collectionName: collectionName, itemID: itemID}
             }
           } 
         }
       }
   })
-  await client.close();
-  return items;
 }
 
 const resisterItemWithItemID = async (url, dbName, collectionName, doc) => {
 
   const client = await MongoClient.connect(url, { useUnifiedTopology: true });
   const db = client.db(dbName);
-  await db.collection(collectionName).insertOne(doc)
+  
+  await db.collection(counterCollectionName).findOne({"collectionName": collectionName}, {}, async (err, res) => {
+    if (res == null) {
+      await db.collection(counterCollectionName).insertOne({"collectionName": collectionName, seq: 0}).then(async res =>{
+        await db.collection(counterCollectionName).findOne({"collectionName": ccollectionName}, {}, async (err, nextID) => {
+          const item = {id: nextID.value.seq, ...doc, date: Date.now()};
+          await db.collection(collectionName).insertOne(item)
+        })
+      })
+    } else {
+      await db.collection(counterCollectionName).findAndModify({"collectionName": collectionName}, [], {$inc: {seq: 1}}, {new: true}, async (err, nextID) => {
+        const item = {id: nextID.value.seq, ...doc, date: Date.now()};
+        await db.collection(collectionName).insertOne(item)
+      })
+    }
+  })
 }
 
 
@@ -62,8 +73,7 @@ app.get('/register', async (req, res) => {
 app.post('/registered', async (req, res) => {
 
   const insertItem = {
-    keywork: req.body.keyword,
-    negative_keyword: req.body.negative_keyword,
+    keywork: req.body.keywork,
     lower_price: req.body.lower_price,
     upper_price: req.body.upper_price,
     item_name: req.body.item_name
@@ -79,7 +89,6 @@ app.get('/earphone', async (req, res) => {
     res.render('earphone.ejs', {items: [items]});
   });
 });
-
 
 
 

@@ -1,6 +1,5 @@
 const express = require('express');
 const MongoClient = require('mongodb').MongoClient;
-import {serchAmazonItems} from "./get_amazon_items.js";
 
 const app = express();
 
@@ -9,18 +8,14 @@ app.use(express.urlencoded({extended: false}));
 
 // MongoDB Listener URL
 const url = 'mongodb://localhost:27017';
-const dbName = "puppet_test";
-const earphoneCollectionName = "earphone_ranking";
-const itemCollectionName = "items";
-const amazonCollectionName = "Amazon10"
 
-const getItem = async (url, dbName, collectionName) => {
+const getItem = async (collectionName, itemID) => {
 
   const client = await MongoClient.connect(url, 
     { useUnifiedTopology: true }
   );
   
-  const db = client.db(dbName);
+  const db = client.db('puppet_test');
 
   const collection = db.collection(collectionName);
 
@@ -30,58 +25,27 @@ const getItem = async (url, dbName, collectionName) => {
       {$limit: 1},
   ];
 
-  const items = []
-  await collection.aggregate(queryGetItem).toArray(docs => {
+  return await collection.aggregate(queryGetItem).toArray().then(docs => {
     for (doc of docs) {
         if ("price" in doc) {
           if ("title" in doc) {
             if ("url" in doc) {
-              items.push({price: doc.price, title: doc.title, url: doc.url, collectionName: collectionName, itemID: itemID});
+              return {price: doc.price, title: doc.title, url: doc.url, collectionName: collectionName, itemID: itemID}
             }
           } 
         }
       }
   })
-  await client.close();
-  return items;
-}
 
-const resisterItemWithItemID = async (url, dbName, collectionName, doc) => {
-
-  const client = await MongoClient.connect(url, { useUnifiedTopology: true });
-  const db = client.db(dbName);
-  await db.collection(collectionName).insertOne(doc)
 }
 
 
-
-app.get('/register', async (req, res) => {
-  res.render('register.ejs');
+app.get('/', async (req, res) => {
+  const items = [];
+  await getItem("cheap_sales_itemID_1", 1).then(item1 => {items.push(item1)});
+  console.log(items);
+  res.render('earphone.ejs', {items: items});
 });
-
-app.post('/registered', async (req, res) => {
-
-  const insertItem = {
-    keywork: req.body.keyword,
-    negative_keyword: req.body.negative_keyword,
-    lower_price: req.body.lower_price,
-    upper_price: req.body.upper_price,
-    item_name: req.body.item_name
-  }
-  await resisterItemWithItemID(url, dbName, itemCollectionName, insertItem)
-  console.log(req.body);
-  res.redirect('/register');
-});
-
-app.get('/earphone', async (req, res) => {
-  await getItem(url, dbName, earphoneCollectionName).then(items => {
-    console.log(items);
-    res.render('earphone.ejs', {items: [items]});
-  });
-});
-
-
-
 
 /**
 app.get('/index', (req, res) => {
