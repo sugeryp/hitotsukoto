@@ -1,0 +1,14 @@
+version: "3.7"
+services:
+  ansible:
+    image: ansible:latest
+    container_name: ansible
+    # environment:
+    #  - env_key=env_value
+    # ports:
+    #  - "80:80"
+    volumes:
+      #- ${PWD}:/usr/share/nginx/html:ro
+      - ~/hitotsukoto/ansible:/work:ro
+      - ~/.ssh:/root/.ssh:ro
+    command: ansible rhel -m ping
