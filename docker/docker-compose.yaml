@@ -9,6 +9,7 @@ services:
     #  - "80:80"
     volumes:
       #- ${PWD}:/usr/share/nginx/html:ro
-      - ~/hitotsukoto/ansible:/work:ro
+      - ~/hitotsukoto/ansible/workdir:/work:ro
       - ~/.ssh:/root/.ssh:ro
+      - ~/hitotsukoto/ansible/.ansible:/root/.ansible
     command: ansible rhel -m ping
