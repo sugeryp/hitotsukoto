@@ -1,0 +1,25 @@
+Ciscoデバイスへの接続：
+    ・コンソール接続
+    ・VTY接続
+
+設定の確認：
+    ・特権モード(イネーブルモード)へ遷移：　enable　表示が > から　#になる
+    ・設定の表示：　show 　ユーザモードでは一部の設定しか見れない
+    ・ユーザモードへ遷移：　disable
+    ・ログアウト： exit
+
+コマンド・引数の確認：
+    ・途中まで入力して、？を使う：　（例）clo ? コマンド候補  　　　clock ? 引数の説明
+    ・tabで補完
+
+インターフェースモード：
+    ・インターフェースモードに切り替え：　int s0/0/0 または　interface Serial 0/0/0
+    ・読み方：　一つ目のup/down 物理層層、　二つ目のup/down データリンク層
+
+インターフェース情報の表示：
+    ・全てのインファーフェース確認コマンド：　show interfaces
+    ・特定のインターフェース確認コマンド：　show interfaces　Serial 0/0/0
+
+IPアドレスの情報・UP・DOWNの情報だけ確認
+    ・コマンド：　show up interface brief
+    ・administratively down: shutdownコマンドで意図的に投入した場合のdown
