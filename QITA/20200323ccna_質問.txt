@@ -1,0 +1,31 @@
+①Ciscoデバイスへの接続：
+    コンソール接続方法についてイメージが掴めない
+    コンソールケーブルをPCとスイッチにを続した後、PCのコマンドプロンプトやターミナルから操作するのか、
+    それともiOS操作用のソフトウェアのインストールが必要なのか
+    PCの通信ソフトウェアについて、速度やデータビットが指定されているが、特別設定が必要なのか
+
+
+②コマンド入力モードについて：
+    設定　→　確認/検証で状態を遷移するのが煩雑に感じます。
+    （FastLab1での例）vlan1のconfig-ifに遷移してIP、DefaultGatewayの設定　→　enablemodeに遷移してsh int e0/0で設定確認やpingで疎通確認
+
+    config-ifに遷移せず、enablemodeからインターフェース設定は可能でしょうか？
+    そもそも23日の研修で行ったような、アドホックな設定方法はあまり実施しないのでしょうか?
+
+③イネーブルモードでのログインについて：
+    telnet/sshでイネーブルモードでログインすることは可能でしょうか？
+    （Linuxのrootログインのような）
+
+
+④テキストの表記について：
+    コマンドという表記と、Exec コマンドという表記がありますがExecは無視してただのコマンドと考えていいでしょうか？
+    show version Exec コマンド、show running-config　コマンド等
+
+⑤MACアドレステーブルとARPテーブルの違い：
+    MACアドレステーブルを持つのはスイッチだけ？
+
+
+
+TCP/IPスタックの実装：
+    Linuxはトランスポート層までの実装がカーネルに組み込まれている
+    　https://linux-kernel-labs.github.io/refs/heads/master/labs/networking.html#networking-in-user-space

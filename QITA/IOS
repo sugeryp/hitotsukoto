@@ -23,3 +23,11 @@ Ciscoデバイスへの接続：
 IPアドレスの情報・UP・DOWNの情報だけ確認
     ・コマンド：　show up interface brief
     ・administratively down: shutdownコマンドで意図的に投入した場合のdown
+
+設定の確認：
+現在の設定の確認：show running-config
+保存された設定の確認：show startup-config
+
+パイプ：　| で標準出力を標準入力に繋げられる
+    include：　command | include keyword　でkeywordを含む行だけ表示、
+        running-configのhostname設定を確認：show running-config | include hostname
