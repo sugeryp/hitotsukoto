@@ -21,11 +21,13 @@
     コマンドという表記と、Exec コマンドという表記がありますがExecは無視してただのコマンドと考えていいでしょうか？
     show version Exec コマンド、show running-config　コマンド等
 
+⑤IPアドレスが分かっていて、接続ポートが分かっていない場合に、IPアドレスから接続ポートを調べるコマンドはあるか？
+
 ⑤MACアドレステーブルとARPテーブルの違い：
     MACアドレステーブルを持つのはスイッチだけ？
 
 
-
+【1日目の質問に関連】
 TCP/IPスタックの実装：
     Linuxはトランスポート層までの実装がカーネルに組み込まれている
     　https://linux-kernel-labs.github.io/refs/heads/master/labs/networking.html#networking-in-user-space
