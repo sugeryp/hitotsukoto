@@ -2,32 +2,89 @@ Ciscoデバイスへの接続：
     ・コンソール接続
     ・VTY接続
 
-設定の確認：
-    ・特権モード(イネーブルモード)へ遷移：　enable　表示が > から　#になる
-    ・設定の表示：　show 　ユーザモードでは一部の設定しか見れない
-    ・ユーザモードへ遷移：　disable
-    ・ログアウト： exit
-
-コマンド・引数の確認：
-    ・途中まで入力して、？を使う：　（例）clo ? コマンド候補  　　　clock ? 引数の説明
-    ・tabで補完
-
-インターフェースモード：
-    ・インターフェースモードに切り替え：　int s0/0/0 または　interface Serial 0/0/0
-    ・読み方：　一つ目のup/down 物理層層、　二つ目のup/down データリンク層
+モード遷移：
+    ・特権モード(イネーブルモード)へ遷移：　enable　(en)表示が #になる 
+    ・グローバルコンフィギュレーションモード: configure terminal (conf t)
+    ・設定の表示：　show(sh)
+    ・ユーザモードへ遷移：　disable　(disa) 表示が >になる 
+    ・ログアウト： execモード(特権・ユーザ)でexit
+    ・グローバルコンフィギュレーションモード(要enableモード)： configure terminal (conf t)
+    ・インターフェースモードに切り替え(要グローバルコンフィギュレーションモード)：　int s0/0/0 または　interface Serial 0/0/0
+    ・Execモードへ戻る： end または exit(一つ戻る)
 
 インターフェース情報の表示：
     ・全てのインファーフェース確認コマンド：　show interfaces
     ・特定のインターフェース確認コマンド：　show interfaces　Serial 0/0/0
 
 IPアドレスの情報・UP・DOWNの情報だけ確認
-    ・コマンド：　show up interface brief
+    ・コマンド：　show ip interface brief
+    ・読み方：　一つ目のup/down 物理層層、　二つ目のup/down データリンク層
     ・administratively down: shutdownコマンドで意図的に投入した場合のdown
 
-設定の確認：
-現在の設定の確認：show running-config
-保存された設定の確認：show startup-config
+設定の確認(enableモード)：
+    現在の設定の確認：show running-config
+    保存された設定の確認：show startup-config
+
+設定の保存(enableモード)：
+    copy running-config startup-config
+
+インターフェイスのUP・DOWN制御(インターフェイスモード)：
+    ・強制的にDOWN: shutdown
+    ・強制的なDOWNの解除：　no shutdown
+
+インターフェイスへのコメント付与(インターフェイスモード)：
+    ・description コメント
 
 パイプ：　| で標準出力を標準入力に繋げられる
     include：　command | include keyword　でkeywordを含む行だけ表示、
         running-configのhostname設定を確認：show running-config | include hostname
+
+パラメータ	説明
+begin	フィルタリング条件に一致する行から開始される、すべての出力行を表示します
+exclude	フィルタリング条件と一致するすべての出力行以外を表示します
+include	フィルタリング条件と一致するすべての出力行を表示します
+section	フィルタリング条件で始まるセクション全体を表示します
+
+
+
+
+メモリ：
+NVRAM: startup-config
+RAM: running-config
+ROM:
+    ブートストラップコード：初期化中にルータを起動します。
+    電源投入時自己診断テスト（POST）マイクロコード：ルータハードウェアの基本機能をテストし、どのようなコンポーネントが存在するかを判別するために使用されます。
+    ROM モニタ：通常は製造、テスト、トラブルシューティング、パスワード回復に使用される、下位のオペレーティング システムが含まれています。ROM モニタ モードで起動した場合、ルータはルーティング機能や IP 機能を実行しません。
+フラッシュ メモリ:
+    Cisco IOS ソフトウェア、
+    バックアップ コンフィギュレーション ファイル、
+    その他のデバイス関連ファイル
+
+
+
+コマンドライン編集キー シーケンス	説明
+Ctrl+A	コマンド ラインの先頭にカーソルを移動する
+Ctrl+C	現在のコマンドを中断し、設定モードを終了する
+Ctrl+E	コマンド ラインの末尾にカーソルを移動する
+Esc+B	単語 1 つ分だけカーソルを後退させる
+Esc+F	単語 1 つ分だけカーソルを進める
+Ctrl+B	カーソルを 1 文字分だけ後退させる
+Ctrl+F	カーソルを 1 文字分だけ進める
+Ctrl+D	カーソル位置にある 1 文字を削除する
+Backspace	カーソルの左側の 1 文字を削除する
+Ctrl+R	現在のコマンドラインを再表示する
+Ctrl+U	行を消去する
+Ctrl+W	カーソルの左にある単語を消去する
+Ctrl+Z	設定モードを終了し、EXEC プロンプトに戻る
+タブ	あいまいさを排除するのに十分な文字が入力されている場合に、部分的に入力したコマンドを完成させる
+Ctrl+Shift+6	ping や traceroute などの Cisco IOS プロセスを中断する
+Ctrl+P または上矢印	最後（直前）のコマンドを順次呼び出す
+Ctrl+N または下矢印	新しいコマンドを順次呼び出す
+
+
+
+
+エラー メッセージ	意味	ヘルプの表示方法
+% Ambiguous command	デバイスがコマンドとして一意に認識できる十分な文字数が入力されていません。	末尾に疑問符（?）を付けて再度入力します。疑問符の前にスペースがないことを確認します。コマンドとともに入力できる利用可能なキーワードが CLI に表示されます。
+% Incomplete command	コマンドに必須のキーワードまたは値が、一部入力されていません。	末尾にスペースと疑問符 ? を付けて再度入力します。
+% Invalid input detected at ‘^’ marker	コマンドの入力ミスです。^ は、エラーのある最初の要素を示しています。	使用可能なすべてのコマンドまたはコマンド オプションを表示するには、疑問符 ? を入力します。
