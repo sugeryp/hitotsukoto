@@ -35,6 +35,34 @@ IPアドレスの情報・UP・DOWNの情報だけ確認
 インターフェイスへのコメント付与(インターフェイスモード)：
     ・description コメント
 
+インターフェイスに接続されているスイッチの情報を取得：
+    SW1#show cdp neighbors
+    Capability Codes: R - Router, T - Trans Bridge, B - Source Route Bridge
+                    S - Switch, H - Host, I - IGMP, r - Repeater, P - Phone, 
+                    D - Remote, C - CVTA, M - Two-port Mac Relay 
+
+    Device ID        Local Intrfce     Holdtme    Capability  Platform  Port ID
+    SW2              Eth 0/0           154              S I   Linux Uni Eth 0/0
+
+    IPアドレスも表示：show cdp neighbors detail
+
+    lldpで確認：
+    SW1#show lldp neighbors 
+    Capability codes:
+    (R) Router, (B) Bridge, (T) Telephone, (C) DOCSIS Cable Device
+    (W) WLAN Access Point, (P) Repeater, (S) Station, (O) Other
+
+    Device ID           Local Intf     Hold-time  Capability      Port ID
+
+    Total entries displayed: 0
+
+    IPアドレスも表示：show lldp neighbors detail
+
+cdp無効化：no cdp run
+    有効化：cdp run
+lldp有効化：lldp run
+
+
 パイプ：　| で標準出力を標準入力に繋げられる
     include：　command | include keyword　でkeywordを含む行だけ表示、
         running-configのhostname設定を確認：show running-config | include hostname

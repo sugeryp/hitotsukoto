@@ -1,0 +1,37 @@
+R1#show running-config | begin line
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ access-class 11 in
+ no login
+ transport input telnet
+!
+!
+end
+
+
+R1#show running-config | include username  
+username admin password 7 072E25414707485744
+R1#
+
+
+R1(config)#line con 0
+R1(config-line)#login local
+
+R1(config-line)#line vty 0 4
+R1(config-line)#login local
+
+
+R1#show running-config | begin line        
+line con 0
+ logging synchronous
+ login local
+line aux 0
+line vty 0 4
+ access-class 11 in
+ login local
+ transport input telnet
+!
+!
+end

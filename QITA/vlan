@@ -1,0 +1,178 @@
+SW1#show vlan
+
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    default                          active    Et0/1, Et0/2, Et0/3, Et1/0
+                                                Et1/1, Et1/2, Et1/3
+1002 fddi-default                     act/unsup 
+1003 token-ring-default               act/unsup 
+1004 fddinet-default                  act/unsup 
+1005 trnet-default                    act/unsup 
+
+VLAN Type  SAID       MTU   Parent RingNo BridgeNo Stp  BrdgMode Trans1 Trans2
+---- ----- ---------- ----- ------ ------ -------- ---- -------- ------ ------
+1    enet  100001     1500  -      -      -        -    -        0      0   
+1002 fddi  101002     1500  -      -      -        -    -        0      0   
+1003 tr    101003     1500  -      -      -        -    -        0      0   
+1004 fdnet 101004     1500  -      -      -        ieee -        0      0   
+1005 trnet 101005     1500  -      -      -        ibm  -        0      0   
+
+Primary Secondary Type              Ports
+------- --------- ----------------- ------------------------------------------
+
+
+
+SW1(config)#vlan 2
+SW1(config-vlan)#name Engineering
+SW1(config-vlan)#end
+SW1#show vlan brief
+*Mar 26 02:34:03.100: %SYS-5-CONFIG_I: Configured from console by console
+SW1#show vlan brief
+
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    default                          active    Et0/1, Et0/2, Et0/3, Et1/0
+                                                Et1/1, Et1/2, Et1/3
+2    Engineering                      active    
+1002 fddi-default                     act/unsup 
+1003 token-ring-default               act/unsup 
+1004 fddinet-default                  act/unsup 
+1005 trnet-default                    act/unsup 
+
+
+
+
+SW1#show vlan id 2
+
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+2    Engineering                      active    Et0/0
+
+VLAN Type  SAID       MTU   Parent RingNo BridgeNo Stp  BrdgMode Trans1 Trans2
+---- ----- ---------- ----- ------ ------ -------- ---- -------- ------ ------
+2    enet  100002     1500  -      -      -        -    -        0      0   
+
+Primary Secondary Type              Ports
+------- --------- ----------------- ------------------------------------------
+
+
+シスコ独自の古いトランキング プロトコルである Inter-Switch Link（ISL）です。IEEE 802.1Q の方が現在のネットワークでは一般的であり、一部のスイッチ モデルでは ISL がサポート対象外になっています。したがって、SW1 の Ethernet0/0 インターフェイスのスイッチポートのステータスを確認する前に、switchport trunk encapsulation dot1q コマンドを使用して、このインターフェイスを IEEE 802.1Q トランクに明示的に設定します。
+
+
+SW1(config)#int e0/0
+SW1(config-if)#switchport trunk encapsulation dot1q
+SW1(config-if)#end
+SW1#show interface Ethernet0/0 switchport
+Name: Et0/0
+Switchport: Enabled
+Administrative Mode: dynamic desirable
+Operational Mode: trunk
+Administrative Trunking Encapsulation: dot1q
+Operational Trunking Encapsulation: dot1q
+Negotiation of Trunking: On
+Access Mode VLAN: 1 (default)
+Trunking Native Mode VLAN: 1 (default)
+Administrative Native VLAN tagging: enabled
+Voice VLAN: none
+Administrative private-vlan host-association: none 
+Administrative private-vlan mapping: none 
+Administrative private-vlan trunk native VLAN: none
+Administrative private-vlan trunk Native VLAN tagging: enabled
+Administrative private-vlan trunk encapsulation: dot1q
+Administrative private-vlan trunk normal VLANs: none
+Administrative private-vlan trunk associations: none
+Administrative private-vlan trunk mappings: none
+Operational private-vlan: none
+Trunking VLANs Enabled: ALL
+Pruning VLANs Enabled: 2-1001
+Capture Mode Disabled
+Capture VLANs Allowed: ALL
+
+Appliance trust: none
+SW1#
+
+
+SW2(config)#int e0/0
+SW2(config-if)#switchport trunk encapsulation dot1q
+SW2(config-if)#end
+SW2#show 
+*Mar 26 02:47:24.799: %SYS-5-CONFIG_I: Configured from console by console
+SW2#show runni
+SW2#show running-config | section int
+vlan internal allocation policy ascending
+interface Ethernet0/0
+ description Link to SW1
+ switchport trunk encapsulation dot1q
+ duplex auto
+interface Ethernet0/1
+ duplex auto
+interface Ethernet0/2
+ duplex auto
+interface Ethernet0/3
+ duplex auto
+interface Ethernet1/0
+ description Link to PC3
+ duplex auto
+interface Ethernet1/1
+ description Link to PC4
+ duplex auto
+interface Ethernet1/2
+ duplex auto
+interface Ethernet1/3
+ duplex auto
+interface Vlan1
+ ip address 10.10.1.5 255.255.255.0
+ no ip route-cache
+
+ネイティブVLANの設定
+
+SW2(config-vlan)#vlan 256
+SW2(config-vlan)#name NoHosts
+SW2(config-vlan)#int e0/0
+SW2(config-if)#switchport trunk native vlan 256
+SW2(config-if)#switchport mode trunk
+SW2(config-if)#end
+
+SW2(config-if)#switchport access vlan 2
+SW2(config-if)#switchport mode access
+SW2(config-if)#end
+SW2#show interfaces EtherNet 1/1 switchport 
+Name: Et1/1
+Switchport: Enabled
+Administrative Mode: static access
+Operational Mode: static access
+Administrative Trunking Encapsulation: negotiate
+Operational Trunking Encapsulation: native
+Negotiation of Trunking: Off
+Access Mode VLAN: 2 (Engineering)
+Trunking Native Mode VLAN: 1 (default)
+Administrative Native VLAN tagging: enabled
+Voice VLAN: none
+Administrative private-vlan host-association: none 
+Administrative private-vlan mapping: none 
+Administrative private-vlan trunk native VLAN: none
+Administrative private-vlan trunk Native VLAN tagging: enabled
+Administrative private-vlan trunk encapsulation: dot1q
+Administrative private-vlan trunk normal VLANs: none
+Administrative private-vlan trunk associations: none
+Administrative private-vlan trunk mappings: none
+Operational private-vlan: none
+Trunking VLANs Enabled: ALL
+Pruning VLANs Enabled: 2-1001
+Capture Mode Disabled
+Capture VLANs Allowed: ALL
+
+Appliance trust: none
+
+
+SW2#show interface status
+
+Port      Name               Status       Vlan       Duplex  Speed Type
+Et0/0     Link to SW1        connected    trunk        auto   auto unknown
+Et0/1                        connected    1            auto   auto unknown
+Et0/2                        connected    1            auto   auto unknown
+Et0/3                        connected    1            auto   auto unknown
+Et1/0     Link to PC3        connected    1            auto   auto unknown
+Et1/1     Link to PC4        connected    2            auto   auto unknown
+Et1/2                        connected    1            auto   auto unknown
+Et1/3                        connected    1            auto   auto unknown
