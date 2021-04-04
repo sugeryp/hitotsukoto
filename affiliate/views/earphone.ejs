@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewpoint" content="width=device-width, initial-scale=1.0">
+        <title>高級イヤホン価格比較</title>
+        <link rel="stylesheet" href="/css/stylesheet.css">
+        <link rel="stylesheet" href="responsive.css">
+    </head>
+    <body>
+        <header>
+            <div class="container">
+                <div class="header-left">
+                    <a class="title">高音質イヤホンランキング</a>
+                </div>
+                <div class="header-right">
+                    <a href="#">HOEM</a>
+                    <a href="#">ランキング一覧</a>
+                </div>
+            </div>
+        </header>
+        <div class="top-wrapper">
+            <div class="jacket">
+                <div class="container">
+                    <p class="title">人気高音質イヤホンランキング</p>
+                </div>
+            </div>
+            <div class="girdle">
+                <div class="container">
+                    <p class="explanation">
+                        一定期間に検索された回数が多い商品について、Amazon、Yahoo、楽天で最安の商品を表示
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="ranking-wrapper">
+            <div class="container">
+            <% let item = items[0]; %>
+                <div class="heading">
+                    <p class="explanation">
+                        ランキング
+                    </p>
+                </div>
+                <div class="rank rank1">
+                    <div class="heading">
+                        <a href="#">製品名</a>
+                    </div>
+                    <div class="sales">
+                        <div class="Amazon sale">
+                            <p class="mall-name">Amazon</p>
+                            <img src="https://prog-8.com/images/html/advanced/top.png" alt="商品画像">
+                            <a href="<%= item.url %>" target="_blank" rel="noopener noreferrer"><%= item.title %></a>
+                            <p class="price"><%= item.price %> 円</p>
+                        </div>
+                        <div class="rakuten sale">
+                            <p class="mall-name">楽天</p>
+                            <img src="https://prog-8.com/images/html/advanced/top.png" alt="商品画像">
+                            <a href="#">商品タイトル</a>
+                            <p class="price">価格</p>
+                        </div>
+                        <div class="yahoo sale">
+                            <p class="mall-name">Yahoo</p>
+                            <img src="https://prog-8.com/images/html/advanced/top.png" alt="商品画像">
+                            <a href="#">商品タイトル</a>
+                            <p class="price">価格</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="rank rank2">
+                    <div class="heading">
+                        <a href="#">製品名</a>
+                    </div>
+                    <div class="sales">
+                        <div class="Amazon sale">
+                            <p class="mall-name">Amazon</p>
+                            <img src="https://prog-8.com/images/html/advanced/top.png" alt="商品画像">
+                            <a href="#">商品タイトル</a>
+                            <p class="price">価格</p>
+                        </div>
+                        <div class="rakuten sale">
+                            <p class="mall-name">楽天</p>
+                            <img src="https://prog-8.com/images/html/advanced/top.png" alt="商品画像">
+                            <a href="#">商品タイトル</a>
+                            <p class="price">価格</p>
+                        </div>
+                        <div class="yahoo sale">
+                            <p class="mall-name">Yahoo</p>
+                            <img src="https://prog-8.com/images/html/advanced/top.png" alt="商品画像">
+                            <a href="#">商品タイトル</a>
+                            <p class="price">価格</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="rank rank3">
+                    <div class="heading">
+                        <a href="#">製品名</a>
+                    </div>
+                    <div class="sales">
+                        <div class="Amazon sale">
+                            <p class="mall-name">Amazon</p>
+                            <img src="https://prog-8.com/images/html/advanced/top.png" alt="商品画像">
+                            <a href="#">商品タイトル</a>
+                            <p class="price">価格</p>
+                        </div>
+                        <div class="rakuten sale">
+                            <p class="mall-name">楽天</p>
+                            <img src="https://prog-8.com/images/html/advanced/top.png" alt="商品画像">
+                            <a href="#">商品タイトル</a>
+                            <p class="price">価格</p>
+                        </div>
+                        <div class="yahoo sale">
+                            <p class="mall-name">Yahoo</p>
+                            <img src="https://prog-8.com/images/html/advanced/top.png" alt="商品画像">
+                            <a href="#">商品タイトル</a>
+                            <p class="price">価格</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <div class="container">
+                <img src="https://prog-8.com/images/html/advanced/footer_logo.png">
+                <p>人気商品価格比較.</p>
+              </div>
+            </footer>
+        </footer>
+    </body>
+</html>

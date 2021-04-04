@@ -1,0 +1,25 @@
+{
+  "name": "hitotsukoto",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tsc": "./node_modules/.bin/tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sugeryp/hitotsukoto.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sugeryp/hitotsukoto/issues"
+  },
+  "homepage": "https://github.com/sugeryp/hitotsukoto#readme",
+  "dependencies": {
+    "aws-sdk": "^2.804.0",
+    "typescript": "^4.1.2"
+  }
+}
